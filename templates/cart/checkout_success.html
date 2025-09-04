@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Successful - {{ store.name|default:"xCommerce" }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Progress Steps -->
+        <div class="mb-8">
+            <div class="flex items-center justify-center space-x-8">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <span class="ml-2 text-sm font-medium text-green-600">Cart</span>
+                </div>
+                <div class="w-16 h-0.5 bg-green-600"></div>
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <span class="ml-2 text-sm font-medium text-green-600">Checkout</span>
+                </div>
+                <div class="w-16 h-0.5 bg-green-600"></div>
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <span class="ml-2 text-sm font-medium text-green-600">Complete</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="max-w-2xl mx-auto text-center">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-8">
+                <!-- Success Icon -->
+                <div class="w-20 h-20 mx-auto mb-6 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
+                    <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Order Successful!</h1>
+                
+                <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                    Thank you for your purchase. Your order has been placed successfully.
+                </p>
+                
+                <!-- Order Details -->
+                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Order Number</h3>
+                            <p class="text-lg font-semibold text-gray-900 dark:text-white">#{{ order_number|default:"12345" }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Estimated Delivery</h3>
+                            <p class="text-lg font-semibold text-gray-900 dark:text-white">3-5 Business Days</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Order Total</h3>
+                            <p class="text-lg font-semibold text-gray-900 dark:text-white">${{ order_total|default:"199.99" }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Payment Method</h3>
+                            <p class="text-lg font-semibold text-gray-900 dark:text-white">•••• 1234</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Next Steps -->
+                <div class="text-left mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">What happens next?</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 mr-3">
+                                <span class="text-sm font-medium text-blue-600">1</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400">You'll receive an order confirmation email shortly.</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 mr-3">
+                                <span class="text-sm font-medium text-blue-600">2</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400">We'll prepare and package your order for shipping.</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 mr-3">
+                                <span class="text-sm font-medium text-blue-600">3</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400">You'll receive a tracking number once your order ships.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        {% if user.is_authenticated %}
+                            <a href="#" class="btn-primary">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                                View Order Details
+                            </a>
+                        {% endif %}
+                        <a href="{% url 'products:catalog' %}" class="btn-secondary">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                            Continue Shopping
+                        </a>
+                    </div>
+                    
+                    <div class="pt-4 border-t dark:border-gray-600">
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Need help with your order?</p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center text-sm">
+                            <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                                Contact Support
+                            </a>
+                            <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                                Track Your Order
+                            </a>
+                            <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                                Return Policy
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Newsletter Signup -->
+            <div class="mt-8 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Stay updated!</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                    Get notified about new products, special offers, and exclusive deals.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <input type="email" placeholder="Enter your email" 
+                           class="flex-1 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    <button class="btn-primary px-6 py-2">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-redirect after 30 seconds (optional)
+// setTimeout(() => {
+//     window.location.href = '{% url "products:catalog" %}';
+// }, 30000);
+
+// Confetti animation (optional)
+window.addEventListener('load', function() {
+    // Simple confetti effect could be added here
+    console.log('Order completed successfully!');
+});
+</script>
+{% endblock %}

@@ -1,0 +1,399 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - {{ block.super }}{% endblock %}
+
+{% block meta_description %}{% if product.meta_description %}{{ product.meta_description }}{% else %}{{ product.short_description|default:product.description|truncatewords:20 }}{% endif %}{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<nav class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700" aria-label="Breadcrumb">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center space-x-4 py-4 text-sm">
+            <a href="/" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">Home</a>
+            <svg class="flex-shrink-0 h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <a href="/products/" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">Products</a>
+            {% if product.category %}
+            <svg class="flex-shrink-0 h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <a href="/products/?category={{ product.category.slug }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">{{ product.category.name }}</a>
+            {% endif %}
+            <svg class="flex-shrink-0 h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-gray-900 dark:text-gray-100">{{ product.name }}</span>
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start">
+        <!-- Product Images -->
+        <div class="space-y-4">
+            <!-- Main Image -->
+            <div class="aspect-square overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+                {% if product_images.0 %}
+                    <img 
+                        data-main-image
+                        src="{{ product_images.0.image.url }}" 
+                        alt="{{ product_images.0.alt_text|default:product.name }}"
+                        class="w-full h-full object-cover"
+                    >
+                {% else %}
+                    <div class="w-full h-full flex items-center justify-center text-gray-400">
+                        <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Thumbnail Images -->
+            {% if product_images|length > 1 %}
+            <div class="flex space-x-2 overflow-x-auto pb-2">
+                {% for image in product_images %}
+                <button 
+                    data-thumbnail
+                    data-full-image="{{ image.image.url }}"
+                    data-alt="{{ image.alt_text|default:product.name }}"
+                    class="flex-shrink-0 w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden {% if forloop.first %}ring-2 ring-primary-500{% endif %} hover:ring-2 hover:ring-primary-400 transition-all"
+                >
+                    <img 
+                        src="{{ image.image.url }}" 
+                        alt="{{ image.alt_text|default:product.name }}"
+                        class="w-full h-full object-cover"
+                    >
+                </button>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Product Features -->
+            <div class="hidden lg:block mt-8">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Secure payments</span>
+                    </div>
+                    <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                        <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                            <path d="M3 4a1 1 0 00-1 1v1h16V5a1 1 0 00-1-1H3zM2 8v5a2 2 0 002 2h12a2 2 0 002-2V8H2z"/>
+                        </svg>
+                        <span>Free shipping over $50</span>
+                    </div>
+                    <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>30-day returns</span>
+                    </div>
+                    <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                        <svg class="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                        </svg>
+                        <span>24/7 support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="mt-8 lg:mt-0">
+            <div class="space-y-6">
+                <!-- Product Title & Rating -->
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ product.name }}</h1>
+                    <div class="mt-2 flex items-center space-x-4">
+                        <div class="flex items-center">
+                            {% for i in "12345" %}
+                                <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            {% endfor %}
+                            <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">(4.5) • 123 reviews</span>
+                        </div>
+                        {% if product.sku %}
+                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                            SKU: {{ product.sku }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="flex items-center space-x-3">
+                    <span class="text-4xl font-bold text-gray-900 dark:text-white">${{ product.price }}</span>
+                    {% if product.compare_at_price %}
+                        <span class="text-2xl text-gray-500 dark:text-gray-400 line-through">${{ product.compare_at_price }}</span>
+                        <span class="text-lg font-semibold text-green-600 dark:text-green-400">
+                            Save {{ product.discount_percentage }}%
+                        </span>
+                    {% endif %}
+                </div>
+
+                <!-- Stock Status -->
+                <div class="flex items-center space-x-2">
+                    {% if product.is_in_stock %}
+                        <div class="flex items-center text-green-600 dark:text-green-400">
+                            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            In Stock
+                        </div>
+                        {% if product.is_low_stock %}
+                        <span class="text-orange-600 dark:text-orange-400 text-sm">• Only {{ product.stock_quantity }} left!</span>
+                        {% endif %}
+                    {% else %}
+                        <div class="flex items-center text-red-600 dark:text-red-400">
+                            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            </svg>
+                            Out of Stock
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Short Description -->
+                {% if product.short_description %}
+                <p class="text-lg text-gray-600 dark:text-gray-400">{{ product.short_description }}</p>
+                {% endif %}
+
+                <!-- Variants -->
+                {% if product_variants %}
+                <div x-data="{ selectedVariant: null }" class="space-y-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Options</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            {% for variant in product_variants %}
+                            <button 
+                                @click="selectedVariant = {{ variant.id }}"
+                                :class="selectedVariant === {{ variant.id }} ? 'ring-2 ring-primary-500 bg-primary-50 dark:bg-primary-900' : 'hover:bg-gray-50 dark:hover:bg-gray-800'"
+                                class="p-3 border border-gray-300 dark:border-gray-600 rounded-lg text-left transition-all"
+                                data-variant-id="{{ variant.id }}"
+                                data-variant-price="{{ variant.effective_price }}"
+                            >
+                                <div class="font-medium text-gray-900 dark:text-white">{{ variant.name }}</div>
+                                {% if variant.price %}
+                                <div class="text-sm text-gray-600 dark:text-gray-400">+${{ variant.price|floatformat:2 }}</div>
+                                {% endif %}
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    {% if variant.is_in_stock %}
+                                        {{ variant.stock_quantity }} available
+                                    {% else %}
+                                        Out of stock
+                                    {% endif %}
+                                </div>
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Quantity & Add to Cart -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mr-3">Quantity</label>
+                            <div data-quantity-selector class="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg">
+                                <button 
+                                    data-decrease
+                                    type="button"
+                                    class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                                    </svg>
+                                </button>
+                                <input 
+                                    type="number" 
+                                    value="1" 
+                                    min="1" 
+                                    max="{{ product.stock_quantity }}"
+                                    class="w-16 text-center border-0 border-l border-r border-gray-300 dark:border-gray-600 bg-transparent py-2 text-gray-900 dark:text-white focus:ring-0 focus:border-primary-500"
+                                >
+                                <button 
+                                    data-increase
+                                    type="button"
+                                    class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button 
+                            data-add-to-cart
+                            data-product-id="{{ product.id }}"
+                            class="flex-1 btn btn-primary btn-lg {% if not product.is_in_stock %}opacity-50 cursor-not-allowed{% endif %}"
+                            {% if not product.is_in_stock %}disabled{% endif %}
+                        >
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z"/>
+                            </svg>
+                            {% if product.is_in_stock %}Add to Cart{% else %}Out of Stock{% endif %}
+                        </button>
+                        {% if user.is_authenticated %}
+                            <button 
+                                data-add-to-wishlist
+                                data-product-id="{{ product.id }}"
+                                class="btn btn-outline btn-lg"
+                            >
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                </svg>
+                                Add to Wishlist
+                            </button>
+                        {% endif %}
+                    </div>
+
+                    <!-- Buy Now Button -->
+                    {% if product.is_in_stock %}
+                    <button class="w-full btn btn-secondary btn-lg">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Buy Now
+                    </button>
+                    {% endif %}
+                </div>
+
+                <!-- Product Details Accordion -->
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+                    <div x-data="{ openTab: 'description' }" class="space-y-4">
+                        <!-- Tab Buttons -->
+                        <div class="flex border-b border-gray-200 dark:border-gray-700">
+                            <button 
+                                @click="openTab = 'description'"
+                                :class="openTab === 'description' ? 'border-primary-500 text-primary-600 dark:text-primary-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                                class="py-2 px-4 border-b-2 font-medium text-sm transition-colors"
+                            >
+                                Description
+                            </button>
+                            <button 
+                                @click="openTab = 'specifications'"
+                                :class="openTab === 'specifications' ? 'border-primary-500 text-primary-600 dark:text-primary-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                                class="py-2 px-4 border-b-2 font-medium text-sm transition-colors"
+                            >
+                                Specifications
+                            </button>
+                            <button 
+                                @click="openTab = 'shipping'"
+                                :class="openTab === 'shipping' ? 'border-primary-500 text-primary-600 dark:text-primary-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                                class="py-2 px-4 border-b-2 font-medium text-sm transition-colors"
+                            >
+                                Shipping
+                            </button>
+                        </div>
+
+                        <!-- Tab Content -->
+                        <div class="pt-4">
+                            <div x-show="openTab === 'description'" class="prose dark:prose-invert max-w-none">
+                                {{ product.description|linebreaks }}
+                            </div>
+                            <div x-show="openTab === 'specifications'" x-cloak class="space-y-3">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {% if product.weight %}
+                                    <div class="flex justify-between py-2 border-b border-gray-200 dark:border-gray-700">
+                                        <span class="text-gray-600 dark:text-gray-400">Weight</span>
+                                        <span class="text-gray-900 dark:text-white">{{ product.weight }} kg</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if product.length and product.width and product.height %}
+                                    <div class="flex justify-between py-2 border-b border-gray-200 dark:border-gray-700">
+                                        <span class="text-gray-600 dark:text-gray-400">Dimensions</span>
+                                        <span class="text-gray-900 dark:text-white">{{ product.length }}×{{ product.width }}×{{ product.height }} cm</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if product.sku %}
+                                    <div class="flex justify-between py-2 border-b border-gray-200 dark:border-gray-700">
+                                        <span class="text-gray-600 dark:text-gray-400">SKU</span>
+                                        <span class="text-gray-900 dark:text-white">{{ product.sku }}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if product.barcode %}
+                                    <div class="flex justify-between py-2 border-b border-gray-200 dark:border-gray-700">
+                                        <span class="text-gray-600 dark:text-gray-400">Barcode</span>
+                                        <span class="text-gray-900 dark:text-white">{{ product.barcode }}</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div x-show="openTab === 'shipping'" x-cloak class="space-y-4">
+                                <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Shipping Information</h4>
+                                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                                        <li>• Free shipping on orders over $50</li>
+                                        <li>• Standard delivery: 3-5 business days</li>
+                                        <li>• Express delivery: 1-2 business days</li>
+                                        <li>• International shipping available</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    {% if related_products %}
+    <div class="mt-16 border-t border-gray-200 dark:border-gray-700 pt-16">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Related Products</h2>
+            <a href="/products/?category={{ product.category.slug }}" class="text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300 font-medium">
+                View all in {{ product.category.name }}
+                <svg class="inline w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+            </a>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for related_product in related_products %}
+            <div class="product-card group">
+                <div class="aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800 relative">
+                    {% if related_product.images.first %}
+                        <img 
+                            src="{{ related_product.images.first.image.url }}" 
+                            alt="{{ related_product.name }}"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        >
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-gray-400">
+                            <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="p-4 space-y-2">
+                    <h3 class="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                        <a href="/products/{{ related_product.slug }}/">{{ related_product.name }}</a>
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="price">${{ related_product.price }}</span>
+                        {% if related_product.compare_at_price %}
+                            <span class="price-compare">${{ related_product.compare_at_price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

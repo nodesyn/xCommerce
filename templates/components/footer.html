@@ -1,0 +1,204 @@
+{% load static %}
+<footer class="bg-gray-900 dark:bg-gray-950 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Main Footer Content -->
+        <div class="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Company Info -->
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2">
+                    {% if store.logo %}
+                        <img src="{{ store.logo.url }}" alt="{{ store.name }}" class="h-8 w-auto">
+                    {% else %}
+                        <div class="bg-primary-600 text-white rounded-lg p-2">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold">{{ store.name|default:"xCommerce" }}</span>
+                    {% endif %}
+                </div>
+                <p class="text-gray-300 text-sm leading-6">
+                    {{ store.description|default:"Your one-stop shop for quality products. We believe in delivering exceptional value and outstanding customer service." }}
+                </p>
+                <div class="flex space-x-4">
+                    <!-- Social Media Links -->
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="Facebook">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="Instagram">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.014 5.367 18.647.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.794 3.708 13.643 3.708 12.346s.49-2.448 1.418-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.928.875 1.418 2.026 1.418 3.323s-.49 2.448-1.418 3.323c-.875.807-2.026 1.297-3.323 1.297zm7.798-9.141c-.807 0-1.418-.612-1.418-1.418s.612-1.418 1.418-1.418 1.418.612 1.418 1.418-.611 1.418-1.418 1.418zm3.564 2.26c0-2.734-1.111-5.202-2.918-6.009-1.807-.807-3.858-.612-5.202.612-1.343 1.224-1.539 3.275-.612 5.082.928 1.807 3.396 2.918 6.13 2.918 1.807 0 3.564-.735 4.787-1.958 1.224-1.224 1.958-2.98 1.958-4.787z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="YouTube">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="/products/" class="text-gray-300 hover:text-white transition-colors text-sm">All Products</a></li>
+                    <li><a href="/categories/" class="text-gray-300 hover:text-white transition-colors text-sm">Categories</a></li>
+                    <li><a href="/products/featured/" class="text-gray-300 hover:text-white transition-colors text-sm">Featured</a></li>
+                    <li><a href="/products/sale/" class="text-gray-300 hover:text-white transition-colors text-sm">Sale</a></li>
+                    <li><a href="/about/" class="text-gray-300 hover:text-white transition-colors text-sm">About Us</a></li>
+                    <li><a href="/contact/" class="text-gray-300 hover:text-white transition-colors text-sm">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Customer Service -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Customer Service</h3>
+                <ul class="space-y-2">
+                    <li><a href="/help/" class="text-gray-300 hover:text-white transition-colors text-sm">Help Center</a></li>
+                    <li><a href="/shipping/" class="text-gray-300 hover:text-white transition-colors text-sm">Shipping Info</a></li>
+                    <li><a href="/returns/" class="text-gray-300 hover:text-white transition-colors text-sm">Returns & Exchanges</a></li>
+                    <li><a href="/size-guide/" class="text-gray-300 hover:text-white transition-colors text-sm">Size Guide</a></li>
+                    <li><a href="/track-order/" class="text-gray-300 hover:text-white transition-colors text-sm">Track Your Order</a></li>
+                    <li><a href="/faq/" class="text-gray-300 hover:text-white transition-colors text-sm">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter Signup -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Stay Connected</h3>
+                <p class="text-gray-300 text-sm mb-4">Subscribe to our newsletter for exclusive offers and updates.</p>
+                
+                <form class="space-y-3" action="/newsletter/subscribe/" method="post">
+                    {% csrf_token %}
+                    <div>
+                        <label for="newsletter-email" class="sr-only">Email address</label>
+                        <input 
+                            type="email" 
+                            id="newsletter-email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                            class="block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+                        >
+                    </div>
+                    <button 
+                        type="submit"
+                        class="w-full bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-900 text-sm font-medium transition-colors"
+                    >
+                        Subscribe
+                    </button>
+                </form>
+
+                <!-- Contact Info -->
+                <div class="mt-6 space-y-2">
+                    {% if store.email %}
+                    <div class="flex items-center text-sm text-gray-300">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
+                        <a href="mailto:{{ store.email }}" class="hover:text-white">{{ store.email }}</a>
+                    </div>
+                    {% endif %}
+                    
+                    {% if store.phone %}
+                    <div class="flex items-center text-sm text-gray-300">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                        </svg>
+                        <a href="tel:{{ store.phone }}" class="hover:text-white">{{ store.phone }}</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Footer -->
+        <div class="border-t border-gray-800 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <!-- Copyright -->
+                <div class="text-sm text-gray-400">
+                    © {% now "Y" %} {{ store.name|default:"xCommerce" }}. All rights reserved.
+                </div>
+
+                <!-- Legal Links -->
+                <div class="flex space-x-6 text-sm">
+                    <a href="/privacy/" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="/terms/" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+                    <a href="/cookies/" class="text-gray-400 hover:text-white transition-colors">Cookie Policy</a>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="flex items-center space-x-3">
+                    <span class="text-sm text-gray-400">We accept:</span>
+                    <div class="flex space-x-2">
+                        <!-- Credit Card Icons -->
+                        <div class="bg-white rounded px-2 py-1">
+                            <svg class="w-8 h-5" viewBox="0 0 32 20" fill="none">
+                                <rect width="32" height="20" fill="#1A1F71"/>
+                                <path d="M13.3 8.5H18.7V11.5H13.3V8.5Z" fill="white"/>
+                                <path d="M10 6.5V13.5H12V11.5H14.5V9.5H12V8.5H15.5V6.5H10Z" fill="white"/>
+                            </svg>
+                        </div>
+                        <div class="bg-white rounded px-2 py-1">
+                            <svg class="w-8 h-5" viewBox="0 0 32 20" fill="none">
+                                <rect width="32" height="20" fill="#EB001B"/>
+                                <circle cx="12" cy="10" r="7" fill="#FF5F00"/>
+                                <circle cx="20" cy="10" r="7" fill="#F79E1B"/>
+                            </svg>
+                        </div>
+                        <div class="bg-white rounded px-2 py-1">
+                            <svg class="w-8 h-5" viewBox="0 0 32 20" fill="none">
+                                <rect width="32" height="20" fill="#0070BA"/>
+                                <path d="M7 7H11V13H7V7Z" fill="white"/>
+                                <path d="M13 7V13H17V11H15V9H17V7H13Z" fill="white"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="bg-gray-800 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center items-center space-x-8 text-sm text-gray-400">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>SSL Secured</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                        <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Safe Payments</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                        <path d="M3 4a1 1 0 00-1 1v1h16V5a1 1 0 00-1-1H3zM2 8v5a2 2 0 002 2h12a2 2 0 002-2V8H2z"/>
+                    </svg>
+                    <span>Free Shipping $50+</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>30-Day Returns</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

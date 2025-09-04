@@ -1,0 +1,413 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Checkout - {{ store.name|default:"xCommerce" }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Progress Steps -->
+        <div class="mb-8">
+            <div class="flex items-center justify-center space-x-8">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">1</div>
+                    <span class="ml-2 text-sm font-medium text-blue-600">Cart</span>
+                </div>
+                <div class="w-16 h-0.5 bg-blue-600"></div>
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">2</div>
+                    <span class="ml-2 text-sm font-medium text-blue-600">Checkout</span>
+                </div>
+                <div class="w-16 h-0.5 bg-gray-300 dark:bg-gray-600"></div>
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-400 rounded-full flex items-center justify-center text-sm font-medium">3</div>
+                    <span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">Complete</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Checkout Form -->
+            <div class="space-y-6">
+                <!-- Customer Information -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Customer Information</h2>
+                    
+                    {% if not user.is_authenticated %}
+                        <div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md">
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                </svg>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-blue-800 dark:text-blue-200">Sign in for faster checkout</h3>
+                                    <p class="mt-1 text-sm text-blue-700 dark:text-blue-300">
+                                        Already have an account? 
+                                        <a href="#" class="font-medium underline hover:no-underline">Sign in here</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <form id="checkout-form" class="space-y-4">
+                        {% csrf_token %}
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">First Name</label>
+                                <input type="text" name="first_name" required 
+                                       value="{% if user.is_authenticated %}{{ user.first_name }}{% endif %}"
+                                       class="input-field">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Last Name</label>
+                                <input type="text" name="last_name" required 
+                                       value="{% if user.is_authenticated %}{{ user.last_name }}{% endif %}"
+                                       class="input-field">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                            <input type="email" name="email" required 
+                                   value="{% if user.is_authenticated %}{{ user.email }}{% endif %}"
+                                   class="input-field">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number</label>
+                            <input type="tel" name="phone" 
+                                   value="{% if user.is_authenticated %}{{ user.phone }}{% endif %}"
+                                   class="input-field">
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Shipping Address</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Street Address</label>
+                            <input type="text" name="shipping_address" required class="input-field">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Apartment, suite, etc. (optional)</label>
+                            <input type="text" name="shipping_address_2" class="input-field">
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
+                                <input type="text" name="shipping_city" required class="input-field">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">State</label>
+                                <select name="shipping_state" required class="input-field">
+                                    <option value="">Select State</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="CA">California</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="NY">New York</option>
+                                    <option value="TX">Texas</option>
+                                    <!-- Add more states as needed -->
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ZIP Code</label>
+                                <input type="text" name="shipping_zip" required class="input-field">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Billing Address -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Billing Address</h2>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="same-as-shipping" checked 
+                                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="same-as-shipping" class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Same as shipping address
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="billing-address-fields" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Street Address</label>
+                            <input type="text" name="billing_address" class="input-field">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Apartment, suite, etc. (optional)</label>
+                            <input type="text" name="billing_address_2" class="input-field">
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
+                                <input type="text" name="billing_city" class="input-field">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">State</label>
+                                <select name="billing_state" class="input-field">
+                                    <option value="">Select State</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="CA">California</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="NY">New York</option>
+                                    <option value="TX">Texas</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ZIP Code</label>
+                                <input type="text" name="billing_zip" class="input-field">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Payment Method</h2>
+                    
+                    <div class="space-y-4">
+                        <!-- Payment Options -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="border dark:border-gray-600 rounded-lg p-4 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
+                                <div class="flex items-center">
+                                    <input type="radio" name="payment_method" value="card" id="payment-card" checked
+                                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="payment-card" class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Credit/Debit Card
+                                    </label>
+                                </div>
+                                <div class="mt-2 flex space-x-2">
+                                    <img src="https://via.placeholder.com/32x20/000000/FFFFFF?text=VISA" alt="Visa" class="h-5">
+                                    <img src="https://via.placeholder.com/32x20/000000/FFFFFF?text=MC" alt="Mastercard" class="h-5">
+                                    <img src="https://via.placeholder.com/32x20/000000/FFFFFF?text=AMEX" alt="Amex" class="h-5">
+                                </div>
+                            </div>
+                            
+                            <div class="border dark:border-gray-600 rounded-lg p-4 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
+                                <div class="flex items-center">
+                                    <input type="radio" name="payment_method" value="paypal" id="payment-paypal"
+                                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="payment-paypal" class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        PayPal
+                                    </label>
+                                </div>
+                                <div class="mt-2">
+                                    <img src="https://via.placeholder.com/60x20/0070ba/FFFFFF?text=PayPal" alt="PayPal" class="h-5">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Details -->
+                        <div id="card-details" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Card Number</label>
+                                <input type="text" name="card_number" placeholder="1234 5678 9012 3456" 
+                                       maxlength="19" class="input-field">
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Expiry Date</label>
+                                    <input type="text" name="card_expiry" placeholder="MM/YY" 
+                                           maxlength="5" class="input-field">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">CVV</label>
+                                    <input type="text" name="card_cvv" placeholder="123" 
+                                           maxlength="4" class="input-field">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cardholder Name</label>
+                                <input type="text" name="card_name" class="input-field">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 sticky top-6">
+                    <div class="p-6">
+                        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Order Summary</h2>
+                        
+                        <!-- Items -->
+                        <div class="space-y-3 mb-6">
+                            {% for item in cart_items %}
+                                <div class="flex items-center space-x-3">
+                                    <div class="relative">
+                                        {% if item.product.images.first %}
+                                            <img src="{{ item.product.images.first.image.url }}" 
+                                                 alt="{{ item.product.name }}"
+                                                 class="w-16 h-16 object-cover rounded-lg">
+                                        {% else %}
+                                            <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-lg"></div>
+                                        {% endif %}
+                                        <span class="absolute -top-2 -right-2 w-6 h-6 bg-blue-600 text-white text-xs rounded-full flex items-center justify-center">
+                                            {{ item.quantity }}
+                                        </span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ item.product.name }}</h4>
+                                        {% if item.variant %}
+                                            <p class="text-xs text-gray-600 dark:text-gray-400">{{ item.variant.name }}</p>
+                                        {% endif %}
+                                        <p class="text-sm font-medium text-gray-900 dark:text-white">${{ item.total_price }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Totals -->
+                        <div class="space-y-3 border-t dark:border-gray-700 pt-4">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600 dark:text-gray-400">Subtotal</span>
+                                <span class="font-medium dark:text-white">${{ subtotal }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600 dark:text-gray-400">Shipping</span>
+                                <span class="font-medium dark:text-white">${{ shipping_cost }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600 dark:text-gray-400">Tax</span>
+                                <span class="font-medium dark:text-white">${{ tax_amount|floatformat:2 }}</span>
+                            </div>
+                            <hr class="dark:border-gray-700">
+                            <div class="flex justify-between text-lg font-semibold">
+                                <span class="text-gray-900 dark:text-white">Total</span>
+                                <span class="text-gray-900 dark:text-white">${{ total|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Place Order Button -->
+                        <div class="mt-6">
+                            <button onclick="placeOrder()" class="btn-primary w-full justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Place Order
+                            </button>
+                        </div>
+                        
+                        <!-- Security Info -->
+                        <div class="mt-6 pt-4 border-t dark:border-gray-700">
+                            <div class="flex items-center justify-center space-x-6 text-sm text-gray-600 dark:text-gray-400">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    256-bit SSL
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Secure Checkout
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 flex items-center space-x-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <span class="text-gray-900 dark:text-white">Processing your order...</span>
+    </div>
+</div>
+
+<script>
+// Toggle billing address fields
+document.getElementById('same-as-shipping').addEventListener('change', function() {
+    const billingFields = document.getElementById('billing-address-fields');
+    if (this.checked) {
+        billingFields.classList.add('hidden');
+    } else {
+        billingFields.classList.remove('hidden');
+    }
+});
+
+// Toggle payment method details
+document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const cardDetails = document.getElementById('card-details');
+        if (this.value === 'card') {
+            cardDetails.classList.remove('hidden');
+        } else {
+            cardDetails.classList.add('hidden');
+        }
+    });
+});
+
+// Format card number
+document.querySelector('input[name="card_number"]').addEventListener('input', function() {
+    let value = this.value.replace(/\s/g, '').replace(/\D/g, '');
+    let formattedValue = value.replace(/(.{4})/g, '$1 ');
+    this.value = formattedValue.trim();
+});
+
+// Format expiry date
+document.querySelector('input[name="card_expiry"]').addEventListener('input', function() {
+    let value = this.value.replace(/\D/g, '');
+    if (value.length >= 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+    }
+    this.value = value;
+});
+
+// CVV numeric only
+document.querySelector('input[name="card_cvv"]').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '');
+});
+
+// Place order function
+async function placeOrder() {
+    const form = document.getElementById('checkout-form');
+    const formData = new FormData(form);
+    
+    // Basic validation
+    const requiredFields = form.querySelectorAll('[required]');
+    let isValid = true;
+    
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            field.classList.add('border-red-500');
+            isValid = false;
+        } else {
+            field.classList.remove('border-red-500');
+        }
+    });
+    
+    if (!isValid) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    // Show loading overlay
+    document.getElementById('loading-overlay').classList.remove('hidden');
+    
+    // Simulate order processing (replace with actual payment processing)
+    setTimeout(() => {
+        window.location.href = '{% url "cart:checkout_success" %}';
+    }, 3000);
+}
+</script>
+{% endblock %}

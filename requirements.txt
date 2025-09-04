@@ -5,6 +5,7 @@ redis==6.4.*
 celery==5.5.*
 python-decouple==3.8
 Pillow==11.3.*
-django-cors-headers==4.4.*
-django-extensions==3.2.*
+django-cors-headers==4.7.*
+django-redis==6.0.*
+dj-database-url==3.0.*
 gunicorn==23.*

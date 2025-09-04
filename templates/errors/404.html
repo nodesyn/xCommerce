@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 text-center">
+        <div>
+            <h1 class="text-9xl font-bold text-primary-600 dark:text-primary-400">404</h1>
+            <h2 class="mt-6 text-3xl font-bold text-gray-900 dark:text-white">Page Not Found</h2>
+            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
+                The page you're looking for doesn't exist or has been moved.
+            </p>
+        </div>
+        <div class="space-y-4">
+            <a href="/" class="btn btn-primary btn-lg w-full">
+                Go Back Home
+            </a>
+            <a href="/products/" class="btn btn-outline btn-lg w-full">
+                Browse Products
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
